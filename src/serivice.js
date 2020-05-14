@@ -8,4 +8,12 @@ export default class Service {
             responseType: 'stream'
         });
     }
+
+    static getDailyReport() {
+        return axios({
+            method: 'get',
+            url: 'https://covid19.mathdro.id/api/daily',
+            responseType: 'stream'
+        });
+    }
 }

@@ -4,6 +4,10 @@ import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import NumberFormat from 'react-number-format';
+import { Line } from 'react-chartjs-2';
+
 
 export class Home extends React.Component {
     constructor() {
@@ -25,10 +29,21 @@ export class Home extends React.Component {
                 });
             });
 
+
+        Service.getDailyReport()
+            .then(res => {
+                this.setState({
+                    dailyReport: res.data
+                });
+                console.log(res);
+
+            });
     }
+
     render() {
 
         return (<div>
+
             <Container>
                 <br></br>
                 <Row className="justify-content-md-center">
@@ -36,19 +51,52 @@ export class Home extends React.Component {
                         &nbsp;
                     </Col>
                     <Col md="8">
-                        <Container style={{ border: "1px solid #cfccca" }}>
+                        <Container>
                             <Row className="justify-content-md-center">
-                                <Col xs lg="4" style={{ borderRight: "1px solid #cfccca" }}>
-                                    <h3>{this.state.globalCases.TotalConfirmed || ""}</h3>
-                                    <h6>Confirmed Cases</h6>
-                                </Col>
-                                <Col xs lg="4" style={{ borderRight: "1px solid #cfccca" }}>
-                                    <h3>{this.state.globalCases.TotalRecovered || ""}</h3>
-                                    <h6>Recovered Cases</h6>
+                                <Col xs lg="4">
+                                    <Card className="text-center" bg="warning" text="white">
+                                        <Card.Header>Confirmed</Card.Header>
+                                        <Card.Body>
+                                            <Card.Title>
+                                                <NumberFormat
+                                                    value={this.state.globalCases.TotalConfirmed || 0}
+                                                    displayType={'text'} thousandSeparator={true} />
+                                            </Card.Title>
+                                            <Card.Text>
+                                                Cases
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
                                 </Col>
                                 <Col xs lg="4">
-                                    <h3>{this.state.globalCases.TotalDeaths || ""}</h3>
-                                    <h6>Deaths</h6>
+                                    <Card className="text-center" bg="success" text="white">
+                                        <Card.Header>Recovered</Card.Header>
+                                        <Card.Body>
+                                            <Card.Title>
+                                                <NumberFormat
+                                                    value={this.state.globalCases.TotalRecovered || 0}
+                                                    displayType={'text'} thousandSeparator={true} />
+                                            </Card.Title>
+                                            <Card.Text>
+                                                Cases
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                                <Col xs lg="4">
+                                    <Card className="text-center" bg="danger" text="white">
+                                        <Card.Header>Deaths</Card.Header>
+                                        <Card.Body>
+                                            <Card.Title>
+                                                <NumberFormat
+                                                    value={this.state.globalCases.TotalDeaths || 0}
+                                                    displayType={'text'} thousandSeparator={true} />
+                                            </Card.Title>
+                                            <Card.Text>
+                                                Cases
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
                                 </Col>
                             </Row>
                         </Container>
@@ -58,7 +106,46 @@ export class Home extends React.Component {
                     </Col>
                 </Row>
             </Container>
-            <Container>
+            {this.state.dailyReport &&
+                <Container>
+                    <br></br>
+                    <Row>
+                        <Col lg={2}>&nbsp;</Col>
+                        <Col lg={8}>
+                            <Line
+                                data={{
+                                    labels: this.state.dailyReport.map(item => item.reportDate),
+                                    datasets: [{
+                                        data: this.state.dailyReport
+                                            .map(item => item.totalConfirmed),
+                                        label: 'Confirmed',
+                                        borderColor: 'rgb(251, 194, 55)',
+                                        backgroundColor: '#fbc23785',
+                                        fill: true,
+                                    }, {
+                                        data: this.state.dailyReport
+                                            .map(item => item.totalRecovered),
+                                        label: 'Recovered',
+                                        borderColor: '#47a442',
+                                        backgroundColor: '#47a442',
+                                        fill: true,
+                                    },
+                                    {
+                                        data: this.state.dailyReport
+                                            .map(item => item.deaths.total),
+                                        label: 'Deaths',
+                                        borderColor: 'red',
+                                        backgroundColor: 'red',
+                                        fill: true,
+                                    }
+                                    ]
+                                }}
+                            />
+                        </Col>
+                    </Row>
+                </Container>
+            }
+            {/* <Container>
                 <br></br>
                 <Row>
                     <Col lg={3}>&nbsp;</Col>
@@ -109,7 +196,7 @@ export class Home extends React.Component {
                     </Col>
                     <Col lg={3}>&nbsp;</Col>
                 </Row>
-            </Container>
+            </Container> */}
         </div>
         );
     }
