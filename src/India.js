@@ -1,15 +1,15 @@
 import React from 'react';
 import Service from './service';
-import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import Table from 'react-bootstrap/Table';
 import NumberFormat from 'react-number-format';
 import { Line } from 'react-chartjs-2';
 
 
-export class Home extends React.Component {
+export class India extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -20,7 +20,7 @@ export class Home extends React.Component {
 
 
     componentDidMount() {
-        Service.getSummary()
+        Service.getSummaryOfIndia()
             .then(res => {
                 console.log(res);
                 this.setState({
@@ -28,14 +28,12 @@ export class Home extends React.Component {
                 });
             });
 
-
-        Service.getDailyReport()
+        Service.getStateWiseSummary()
             .then(res => {
                 this.setState({
-                    dailyReport: res.data
+                    stateWiseSummary: res.data
                 });
                 console.log(res);
-
             });
     }
 
@@ -49,11 +47,11 @@ export class Home extends React.Component {
                         &nbsp;
                     </Col>
                     <Col xs="8">
-                        <h2>Status of World</h2>
+                        <h2>Status of India</h2>
                     </Col>
                 </Row>
             </Container>
-            <Container>
+            <Container style={{ marginTop: "10px" }}>
                 <br></br>
                 <Row className="justify-content-md-center">
                     <Col xs lg="2">
@@ -117,97 +115,49 @@ export class Home extends React.Component {
                     </Col>
                 </Row>
             </Container>
-            {this.state.dailyReport &&
+            {this.state.stateWiseSummary &&
                 <Container>
                     <br></br>
                     <Row>
                         <Col lg={2}>&nbsp;</Col>
                         <Col lg={8}>
-                            <Line
-                                data={{
-                                    labels: this.state.dailyReport.map(item => item.reportDate),
-                                    datasets: [{
-                                        data: this.state.dailyReport
-                                            .map(item => item.totalConfirmed),
-                                        label: 'Confirmed',
-                                        borderColor: 'rgb(251, 194, 55)',
-                                        backgroundColor: '#fbc23785',
-                                        fill: true,
-                                    }, {
-                                        data: this.state.dailyReport
-                                            .map(item => item.totalRecovered),
-                                        label: 'Recovered',
-                                        borderColor: '#47a442',
-                                        backgroundColor: '#47a442',
-                                        fill: true,
-                                    },
-                                    {
-                                        data: this.state.dailyReport
-                                            .map(item => item.deaths.total),
-                                        label: 'Deaths',
-                                        borderColor: 'red',
-                                        backgroundColor: 'red',
-                                        fill: true,
-                                    }
-                                    ]
-                                }}
-                            />
+                            <Table bordered striped hover responsive="sm">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th style={{ textAlign: "left" }}>States</th>
+                                        <th>Confirmed</th>
+                                        <th>Recovered</th>
+                                        <th>Deaths</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.state.stateWiseSummary.map((item, index) => {
+                                        if (!item.name) return null;
+                                        return <tr>
+                                            <td>{index + 1}</td>
+                                            <td style={{ textAlign: "left" }}>{item.name}</td>
+                                            <td style={{ textAlign: "right" }}>
+                                                <NumberFormat value={item.cases}
+                                                    displayType={'text'} thousandSeparator={true} />
+                                            </td>
+                                            <td style={{ textAlign: "right" }}>
+                                                <NumberFormat value={item.recovered}
+                                                    displayType={'text'} thousandSeparator={true} />
+                                            </td>
+                                            <td style={{ textAlign: "right" }}>
+                                                <NumberFormat value={item.deaths}
+                                                    displayType={'text'} thousandSeparator={true} />
+                                            </td>
+                                        </tr>
+                                    })}
+                                </tbody>
+                            </Table>
                         </Col>
+                        <Col lg={2}>&nbsp;</Col>
                     </Row>
                 </Container>
             }
-            {/* <Container>
-                <br></br>
-                <Row>
-                    <Col lg={3}>&nbsp;</Col>
-                    <Col lg={6}>
-                        <Table bordered striped hover responsive="sm">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th style={{ textAlign: "left" }}>Country Name</th>
-                                    <th>Confirmed</th>
-                                    <th>Recovered</th>
-                                    <th>Deaths</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.countryCases.map((item, index) => {
-                                    return <tr>
-                                        <td>{index + 1}</td>
-                                        <td style={{ textAlign: "left" }}>{item.Country}</td>
-                                        <td style={{ textAlign: "right" }}>
-                                            {item.TotalConfirmed}
-                                            <p style={{ margin: "0px" }}>
-                                                <small>
-                                                    {item.NewConfirmed} &uarr;
-                                                </small>
-                                            </p>
-                                        </td>
-                                        <td style={{ textAlign: "right" }}>
-                                            {item.TotalRecovered}
-                                            <p style={{ margin: "0px" }}>
-                                                <small>
-                                                    {item.NewRecovered} &uarr;
-                                                </small>
-                                            </p>
-                                        </td>
-                                        <td style={{ textAlign: "right" }}>
-                                            {item.TotalDeaths}
-                                            <p style={{ margin: "0px" }}>
-                                                <small>
-                                                    {item.NewDeaths} &uarr;
-                                                </small>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                })}
-                            </tbody>
-                        </Table>
-                    </Col>
-                    <Col lg={3}>&nbsp;</Col>
-                </Row>
-            </Container> */}
         </div>
         );
     }

@@ -1,10 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { Home } from './Home';
+import { India } from './India';
 
 function App() {
     return (
@@ -16,23 +16,17 @@ function App() {
                         <Nav.Link href="/home">Home</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href="/link1">Link1</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link href="/link2">Link2</Nav.Link>
+                        <Nav.Link href="/india">India</Nav.Link>
                     </Nav.Item>
                 </Nav>
             </nav>
             <Router>
-                <Redirect from="/" to="/home" />
-                <Route path="/home" exact={true} component={Home}>
-                </Route>
-                <Route path="/link1" exact={true}>
-                    <h1>Link1</h1>
-                </Route>
-                <Route path="/link2" exact={true}>
-                    <h1>Link2</h1>
-                </Route>
+                {/* <Redirect from="/" exact to="/home" /> */}
+                <Route exact path="/" render={() => (
+                    <Redirect to="home" />
+                )} />
+                <Route path="/home" exact component={Home}></Route>
+                <Route path="/india" exact component={India}></Route>
             </Router>
         </div>
     );
