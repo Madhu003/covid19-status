@@ -14,6 +14,7 @@ export class India extends React.Component {
       countryCases: [],
       globalCases: {},
       summary: {},
+      stateWiseSummary: {},
     };
   }
 
@@ -54,7 +55,7 @@ export class India extends React.Component {
               &nbsp;
             </Col>
             <Col md='8'>
-              {this.state.summary && (
+              {this.state.summary && this.state.summary.confirmed && (
                 <Container>
                   <Row className='justify-content-md-center'>
                     <Col xs lg='4' sm='12'>
@@ -111,7 +112,7 @@ export class India extends React.Component {
             </Col>
           </Row>
         </Container>
-        {this.state.stateWiseSummary && (
+        {this.state.stateWiseSummary && this.state.stateWiseSummary.length && (
           <Container>
             <br></br>
             <Row>
@@ -129,9 +130,8 @@ export class India extends React.Component {
                   </thead>
                   <tbody>
                     {this.state.stateWiseSummary.map((item, index) => {
-                      if (!item.name) return null;
-                      return (
-                        <tr>
+                      return item.name ? (
+                        <tr key={item.name}>
                           <td>{index + 1}</td>
                           <td style={{ textAlign: 'left' }}>{item.name}</td>
                           <td style={{ textAlign: 'right' }}>
@@ -156,7 +156,7 @@ export class India extends React.Component {
                             />
                           </td>
                         </tr>
-                      );
+                      ) : null;
                     })}
                   </tbody>
                 </Table>
