@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
 import './App.css';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import { Home } from './Home';
 import { India } from './India';
 
@@ -21,12 +21,13 @@ function App() {
                 </Nav>
             </nav>
             <Router>
-                {/* <Redirect from="/" exact to="/home" /> */}
-                <Route exact path="/" render={() => (
-                    <Redirect to="home" />
-                )} />
-                <Route path="/home" exact component={Home}></Route>
-                <Route path="/india" exact component={India}></Route>
+                <Switch>
+                    <Route exact path="/" render={() => (
+                        <Redirect to="home" />
+                    )} />
+                    <Route path="/home" exact component={Home}></Route>
+                    <Route path="/india" exact component={India}></Route>
+                </Switch>
             </Router>
         </div>
     );
