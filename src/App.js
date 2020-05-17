@@ -15,8 +15,8 @@ import { createBrowserHistory } from 'history';
 function App() {
   return (
     <div className='App'>
-      <nav class='navbar navbar-expand-lg navbar-light bg-light'>
-        <a class='navbar-brand' href='#'>
+      <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+        <a className='navbar-brand' href='#'>
           COVID19 Status
         </a>
         <Nav activeKey='/active'>
@@ -29,8 +29,9 @@ function App() {
         </Nav>
       </nav>
       <Router history={createBrowserHistory()}>
-        <Route path='/home' exact component={Home}></Route>
-        <Route path='/india' exact component={India}></Route>
+        <Route path='/' exact component={Home}></Route>
+        {/* <Route path='/home' exact component={Home}></Route> */}
+        {/* <Route path='/india' exact component={India}></Route> */}
       </Router>
     </div>
   );
