@@ -5,6 +5,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import { Home } from './Home';
 import { India } from './India';
+import { createBrowserHistory } from 'history';
 
 function App() {
     return (
@@ -20,14 +21,14 @@ function App() {
                     </Nav.Item>
                 </Nav>
             </nav>
-            <Router>
-                <Switch>
-                    <Route exact path="/" render={() => (
-                        <Redirect to="home" />
-                    )} />
+            <Router  history={createBrowserHistory()}>
+//                 <Switch>
+//                     <Route exact path="/" render={() => (
+//                         <Redirect to="home" />
+//                     )} />
                     <Route path="/home" exact component={Home}></Route>
                     <Route path="/india" exact component={India}></Route>
-                </Switch>
+//                 </Switch>
             </Router>
         </div>
     );
