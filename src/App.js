@@ -21,7 +21,7 @@ function App() {
         </a>
         <Nav activeKey='/active'>
           <Nav.Item>
-            <Nav.Link href='/home'>Home</Nav.Link>
+            <Nav.Link href='/'>Home</Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link href='/india'>India</Nav.Link>
@@ -30,8 +30,7 @@ function App() {
       </nav>
       <Router history={createBrowserHistory()}>
         <Route path='/' exact component={Home}></Route>
-        {/* <Route path='/home' exact component={Home}></Route> */}
-        {/* <Route path='/india' exact component={India}></Route> */}
+        <Route path='/india' exact component={India}></Route>
       </Router>
     </div>
   );
