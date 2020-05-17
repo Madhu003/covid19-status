@@ -2,12 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from 'react-bootstrap/Nav';
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Home } from './Home';
 import { India } from './India';
 import { createBrowserHistory } from 'history';
