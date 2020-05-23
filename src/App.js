@@ -22,8 +22,8 @@ function App() {
                         </Nav.Item>
                     </Nav>
                 </nav>
-                <Route path='/' exact component={Home}></Route>
                 <Route path='/home' exact component={Home}></Route>
+                <Route path='/' exact component={Home}></Route>
                 <Route path='/india' exact component={India}></Route>
             </Router>
         </div>
